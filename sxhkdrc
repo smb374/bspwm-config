@@ -1,0 +1,53 @@
+# terminal
+super + Return
+    alacritty
+# launcher
+super + d
+    $HOME/.config/rofi/scripts/launcher_t1
+# reload config
+super + shift + r
+    bspc wm -r
+# quit/restart bspwm
+super + shift + x
+    bspc quit
+# close
+super + shift + q
+    bspc node -c
+# alternate between the tiled and monocle layout
+super + Tab
+    bspc desktop -l next
+# set the window state
+super + {t,shift + t,shift + f,f}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+# set the node flags
+super + ctrl + {m,x,y,z}
+    bspc node -g {marked,locked,sticky,private}
+# focus or send to the given desktop
+super + {_,shift + }{1-9}
+    bspc {desktop -f,node -d} '^{1-9}'
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+## Screenshot
+# screenshot screen
+Print
+    maim "$HOME/screenshots/$(date +'%Y.%m.%d-%H.%M.%S.screenshot.png')"
+# screenshot selected area
+super + Print
+    maim --select "$HOME/screenshots/$(date +'%Y.%m.%d-%H.%M.%S.screenshot.select.png')"
+# screenshot screen to clipboard
+ctrl + Print
+    maim | xclip -selection clipboard -t image/png
+# screenshot selected area to clipboard
+super + ctrl + Print
+    maim --select | xclip -selection clipboard -t image/png
+
+## Brightness
+# Increase brightness by 10
+XF86MonBrightnessUp
+    light -A 10
+# Decrease brightness by 10
+XF86MonBrightnessDown
+    light -U 10
+

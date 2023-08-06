@@ -1,0 +1,25 @@
+#!/bin/sh
+
+bspc monitor -d 1 2 3 4 5 6 7 8 9
+
+bspc config pointer_modifier mod4
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
+bspc config pointer_action2 resize_corner
+
+bspc config border_width 3
+bspc config window_gap 10
+
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config focus_follows_pointer true
+
+bspc config focused_border_color "#B4BEFE"
+bspc config normal_border_color "#6C7086"
+
+pkill sxhkd
+sxhkd -c "$HOME/.config/bspwm/sxhkdrc" &
+xrdb "$HOME/.Xresources"
+pkill picom
+picom --config "$HOME/.config/picom/picom.conf" -b
+feh --bg-fill "/home/poyehchen/Pictures/Wallpapers/79491749_p0.jpg"
