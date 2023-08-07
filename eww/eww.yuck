@@ -181,7 +181,7 @@
     :hexpand true
     (box
       :class "mpd-cover"
-      :tooltip "Now: ${mpd-info[0]} - ${mpd-info[1]}"
+      :tooltip "Now: ${mpd-info[2]} - ${mpd-info[1]}"
       :style "background-image: url('${cover-path}'); min-height: ${max-art-height}px;")
     (overlay
       (progress

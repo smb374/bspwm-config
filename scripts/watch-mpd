@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SET_MPD="$SCRIPT_ROOT/set-mpd"
+SET_MPD="$SCRIPT_ROOT/update-mpd"
 GET_MPD="$SCRIPT_ROOT/mpd"
 cover_cache=""
 title_cache=""

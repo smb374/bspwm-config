@@ -34,6 +34,10 @@ $crust: #11111b;
     Noto Sans CJK TC;
 }
 
+tooltip {
+  background-color: rgba($color: $base, $alpha: 0.9);
+}
+
 .small-bar trough {
   all: unset;
   background-color: $surface0;
