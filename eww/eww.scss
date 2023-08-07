@@ -1,0 +1,87 @@
+// Cattpuccin Mocha
+$rosewater: #f5e0dc;
+$flamingo: #f2cdcd;
+$pink: #f5c2e7;
+$mauve: #cba6f7;
+$red: #f38ba8;
+$maroon: #eba0ac;
+$peach: #fab387;
+$yellow: #f9e2af;
+$green: #a6e3a1;
+$teal: #94e2d5;
+$sky: #89dceb;
+$sapphire: #74c7ec;
+$blue: #89b4fa;
+$lavender: #b4befe;
+$text: #cdd6f4;
+$subtext1: #bac2de;
+$subtext0: #a6adc8;
+$overlay2: #9399b2;
+$overlay1: #7f849c;
+$overlay0: #6c7086;
+$surface2: #585b70;
+$surface1: #45475a;
+$surface0: #313244;
+$base: #1e1e2e;
+$mantle: #181825;
+$crust: #11111b;
+
+* {
+  all: unset;
+  font-family:
+    JetBrains Mono,
+    Symbols Nerd Font Mono,
+    Noto Sans CJK TC;
+}
+
+.main-bar {
+  background: transparent;
+}
+
+.workspace {
+  border-radius: 5px;
+  background: $base;
+  padding: 10px 0 10px 0;
+}
+
+.ws-item {
+  font-size: 14px;
+}
+
+.ws-normal {
+  color: $surface0;
+}
+
+.ws-focused {
+  color: $lavender;
+}
+
+.ws-occupied {
+  color: $overlay0;
+}
+
+.time-container {
+  background: $base;
+  border-radius: 5px;
+}
+
+.time {
+  color: $crust;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 0 10px 0;
+}
+
+.time-progress trough {
+  all: unset;
+  border-radius: 5px;
+  background: rgba($color: $lavender, $alpha: 0.6);
+  min-width: 40px;
+  min-height: 60px;
+}
+
+.time-progress trough progress {
+  border-radius: 5px;
+  background: $lavender;
+  min-width: 40px;
+}

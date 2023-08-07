@@ -28,6 +28,9 @@ super + {_,shift + }{1-9}
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
     bspc node -{f,s} {west,south,north,east}
+# toggle tray
+super + grave
+    polybar-msg cmd toggle && xdo raise -N Polybar
 
 ## Screenshot
 # screenshot screen

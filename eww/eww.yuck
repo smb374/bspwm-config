@@ -1,0 +1,96 @@
+(defwidget workspace-item [class cb]
+  (eventbox
+    :class `${class} ws-item`
+    :halign "center"
+    :valign "center"
+    :onclick cb
+    "󰝥"))
+
+(defvar ws1 "ws-normal")
+(defvar ws2 "ws-normal")
+(defvar ws3 "ws-normal")
+(defvar ws4 "ws-normal")
+(defvar ws5 "ws-normal")
+(defvar ws6 "ws-normal")
+(defvar ws7 "ws-normal")
+(defvar ws8 "ws-normal")
+(defvar ws9 "ws-normal")
+(defwidget workspace []
+  (box
+    :class "workspace"
+    :orientation "v"
+    :space-evenly false
+    :spacing 10
+    (workspace-item :class ws1 :cb "bspc desktop -f 1")
+    (workspace-item :class ws2 :cb "bspc desktop -f 2")
+    (workspace-item :class ws3 :cb "bspc desktop -f 3")
+    (workspace-item :class ws4 :cb "bspc desktop -f 4")
+    (workspace-item :class ws5 :cb "bspc desktop -f 5")
+    (workspace-item :class ws6 :cb "bspc desktop -f 6")
+    (workspace-item :class ws7 :cb "bspc desktop -f 7")
+    (workspace-item :class ws8 :cb "bspc desktop -f 8")
+    (workspace-item :class ws9 :cb "bspc desktop -f 9")))
+
+(defpoll hour :interval "1s" :initial "00" `date +%02H`)
+(defpoll minute :interval "1s" :initial "00" `date +%02M`)
+(defpoll seconds :interval "1s" `date +%S`)
+
+(defwidget time []
+  (box
+    :class "time-container"
+    (overlay
+      (progress
+        :class "time-progress"
+        :orientation "v"
+        :flipped true
+        :value {(seconds / 59.0) * 100.0})
+      (box
+        :class "time"
+        :orientation "v"
+        :valign "center"
+        :space-evenly false
+        (box hour)
+        (box minute)))))
+
+(defwidget top []
+  (box
+    :class "top-bar"
+    :orientation "v"
+    :space-evenly false
+    :valign "start"
+    (workspace)))
+
+(defwidget center []
+  (box
+    :class "center-bar"
+    :orientation "v"
+    :space-evenly false
+    :valign "center"
+    "C"))
+
+(defwidget bottom []
+  (box
+    :class "bottom-bar"
+    :orientation "v"
+    :space-evenly false
+    :valign "end"
+    (time)))
+
+(defwidget bar []
+  (centerbox
+    :class "main-bar"
+    :orientation "v"
+    (top)
+    (center)
+    (bottom)))
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry
+              :x 5
+              :y 0
+              :width 40
+              :height "98%"
+              :anchor "left center")
+  :stacking "fg"
+  (bar))
