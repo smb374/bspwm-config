@@ -1,4 +1,6 @@
 #!/bin/sh
 
-bspc rule -a Polybar layer=above
-bspc rule -a polybar layer=above
+bspc rule -a Polybar:polybar layer=above
+bspc rule -a music:music state=floating rectangle=1000x400+460+340
+bspc rule -a imv state=floating
+bspc rule -a Nsxiv state=floating

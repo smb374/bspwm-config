@@ -6,7 +6,7 @@ super + d
     $HOME/.config/rofi/scripts/launcher_t1
 # reload config
 super + shift + r
-    bspc wm -r
+    bspc wm -r; kill -USR1 -x sxhkd
 # quit/restart bspwm
 super + shift + x
     bspc quit
@@ -16,7 +16,6 @@ super + shift + q
 # alternate between the tiled and monocle layout
 super + Tab
     bspc desktop -l next
-
 super + {_, shift + }c
     bspc node -f {next,prev}.local
 # set the window state
@@ -57,3 +56,10 @@ XF86MonBrightnessUp
 XF86MonBrightnessDown
     light -U 10; eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
 
+## Music
+# spawn ncmpcpp
+super + alt + m
+    alacritty --class music -e ncmpcpp
+# music control
+XF86Audio{Next,Prev,Play}
+	mpc {next,prev,toggle}

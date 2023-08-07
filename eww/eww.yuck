@@ -50,7 +50,7 @@
 
 (defpoll hour :interval "1s" :initial "00" `date +%02H`)
 (defpoll minute :interval "1s" :initial "00" `date +%02M`)
-(defpoll seconds :interval "1s" `date +%S`)
+(defpoll seconds :interval "1s" :initial "0" `date +%S`)
 (defwidget time []
   (box
     :class "time-container"
@@ -179,10 +179,12 @@
     :orientation "v"
     :space-evenly false
     :hexpand true
-    (box
-      :class "mpd-cover"
-      :tooltip "Now: ${mpd-info[2]} - ${mpd-info[1]}"
-      :style "background-image: url('${cover-path}'); min-height: ${max-art-height}px;")
+    (eventbox
+      :onclick `nsxiv '${cover-path}' &`
+      (box
+        :class "mpd-cover"
+        :tooltip "Now: ${mpd-info[2]} - ${mpd-info[1]}"
+        :style "background-image: url('${cover-path}'); min-height: ${max-art-height}px;"))
     (overlay
       (progress
         :class "mpd-progress overlay-progress"
