@@ -1,0 +1,22 @@
+#!/bin/sh
+
+mpd="$SCRIPT_ROOT/mpd"
+
+art=$("$mpd" -c)
+info=$("$mpd" -i)
+playing=$("$mpd" -p)
+list="$("$mpd" -l)"
+repeat="$("$mpd" -r)"
+single="$("$mpd" -o)"
+max_art_width="$(identify "$art" | awk -F' ' '{print $(NF-6);}' | awk -F'x' '{printf "(%d / %d) * 150.0\n", $1, $2}' | bc -l)"
+max_art_height="$(identify "$art" | awk -F' ' '{print $(NF-6);}' | awk -F'x' '{printf "(%d / %d) * 40.0\n", $2, $1}' | bc -l)"
+
+eww -c "$EWW_ROOT" update \
+    cover-path="$art" \
+    mpd-info="$info" \
+    mpd-list="$list" \
+    is-playing="$playing" \
+    is-repeat="$repeat" \
+    is-single="$single" \
+    max-art-width="$max_art_width" \
+    max-art-height="$max_art_height"

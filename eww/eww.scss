@@ -51,6 +51,24 @@ $crust: #11111b;
   margin: 0 2px 0 2px;
 }
 
+.big-icon {
+  padding: 0;
+  font-size: 14px;
+}
+
+.overlay-progress trough {
+  all: unset;
+  background-clip: padding-box;
+  min-width: 40px;
+  min-height: 60px;
+}
+
+.overlay-progress trough progress {
+  background: $lavender;
+  background-clip: padding-box;
+  min-width: 40px;
+}
+
 .main-bar {
   background: transparent;
 }
@@ -90,19 +108,13 @@ $crust: #11111b;
 }
 
 .time-progress trough {
-  all: unset;
   border-radius: 5px;
   background: rgba($color: $lavender, $alpha: 0.6);
-  background-clip: padding-box;
-  min-width: 40px;
-  min-height: 60px;
 }
 
 .time-progress trough progress {
   border-radius: 5px;
   background: $lavender;
-  background-clip: padding-box;
-  min-width: 40px;
 }
 
 .status,
@@ -175,12 +187,14 @@ $crust: #11111b;
   border-radius: 5px;
 }
 
-.mpd-progress {
-  margin-left: 3px;
+.mpd-progress trough {
+  background: rgba($color: $blue, $alpha: 0.6);
+  border-radius: 0 0 5px 5px;
 }
 
 .mpd-progress trough progress {
-  background-color: $lavender;
+  background: $blue;
+  border-radius: 0 0 5px 5px;
 }
 
 .mpd-pane {
@@ -188,13 +202,12 @@ $crust: #11111b;
 }
 
 .mpd-pane-item {
-  color: $text;
+  color: $base;
 }
 
 .mpd-cover {
-  min-height: 35px;
-  min-width: 35px;
-  border-radius: 5px;
+  min-width: 40px;
+  border-radius: 5px 5px 0 0;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

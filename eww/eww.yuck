@@ -56,7 +56,7 @@
     :class "time-container"
     (overlay
       (progress
-        :class "time-progress"
+        :class "time-progress overlay-progress"
         :orientation "v"
         :flipped true
         :value {(seconds / 59.0) * 100.0})
@@ -162,6 +162,51 @@
     (volume)
     (mic)))
 
+;; MPD
+(defvar cover-path "/home/poyehchen/placeholder.png")
+(defvar mpd-info `["", "", ""]`)
+(defvar is-playing false)
+(defvar max-art-height 40)
+
+(defpoll mpd-progress
+  :interval "1s"
+  :initial 0
+  `$SCRIPT_ROOT/mpd -s`)
+
+(defwidget mpd []
+  (box
+    :class "mpd"
+    :orientation "v"
+    :space-evenly false
+    :hexpand true
+    (box
+      :class "mpd-cover"
+      :tooltip "Now: ${mpd-info[0]} - ${mpd-info[1]}"
+      :style "background-image: url('${cover-path}'); min-height: ${max-art-height}px;")
+    (overlay
+      (progress
+        :class "mpd-progress overlay-progress"
+        :orientation "v"
+        :flipped true
+        :value mpd-progress)
+      (box
+        :class "mpd-pane"
+        :orientation "v"
+        :space-evenly false
+        :spacing 5
+        (button
+          :class "icon big-icon mpd-pane-item"
+          :onclick "mpc prev"
+          "󰅃")
+        (button
+          :class "icon big-icon mpd-pane-item"
+          :onclick "mpc toggle"
+          { is-playing ? "󰏤" : "󰐊"})
+        (button
+           :class "icon big-icon mpd-pane-item"
+           :onclick "mpc next"
+           "󰅀")))))
+
 (defwidget top []
   (box
     :class "top-bar"
@@ -176,7 +221,7 @@
     :orientation "v"
     :space-evenly false
     :valign "center"
-    ""))
+    (mpd)))
 
 (defwidget bottom []
   (box

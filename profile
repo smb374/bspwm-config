@@ -16,8 +16,8 @@ eww -c "$EWW_ROOT" reload
 eww -c "$EWW_ROOT" open bar
 
 run "$SCRIPT_ROOT/workspace"
-
 run "$SCRIPT_ROOT/volume"
+run "$SCRIPT_ROOT/mpd-watch"
 
 run polybar -c "$BSPWM_ROOT/polybar.ini"
 polybar-msg cmd restart
@@ -25,3 +25,4 @@ polybar-msg cmd hide
 
 ## Update Initial EWW variables
 eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
+"$SCRIPT_ROOT/set-mpd"
