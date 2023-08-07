@@ -16,6 +16,9 @@ super + shift + q
 # alternate between the tiled and monocle layout
 super + Tab
     bspc desktop -l next
+
+super + {_, shift + }c
+    bspc node -f {next,prev}.local
 # set the window state
 super + {t,shift + t,shift + f,f}
     bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
