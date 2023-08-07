@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bspc rule -a Polybar layer=above
+bspc rule -a polybar layer=above

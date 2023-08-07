@@ -22,17 +22,5 @@ export BSPWM_ROOT="$HOME/.config/bspwm"
 export EWW_ROOT="$BSPWM_ROOT/eww"
 export SCRIPT_ROOT="$BSPWM_ROOT/scripts"
 
-pkill sxhkd
-sxhkd -c "$BSPWM_ROOT/sxhkdrc" &
-
-feh --bg-fill "/home/poyehchen/Pictures/Wallpapers/104200866_p0.png"
-
-pkill eww
-eww -c "$EWW_ROOT" open bar
-
-pgrep -f "scripts/workspace.py" | head -1 | xargs -n1 kill -s SIGTERM
-python3 "$SCRIPT_ROOT/workspace.py" &
-
-pkill polybar
-sleep 3 && polybar -c "$BSPWM_ROOT/polybar.ini" &
-polybar-msg cmd hide
+. "$BSPWM_ROOT/rules"
+. "$BSPWM_ROOT/profile"

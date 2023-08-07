@@ -1,3 +1,20 @@
+(defwidget icon-with-bar [class value tooltip-prefix]
+  (box
+    :class class
+    :orientation "h"
+    :space-evenly false
+    :spacing 2
+    :halign "center"
+    :tooltip "${tooltip-prefix}: ${value}%"
+    (box
+      :class "icon"
+      (children))
+    (progress
+      :class "small-bar"
+      :orientation "v"
+      :flipped true
+      :value value)))
+
 (defwidget workspace-item [class cb]
   (eventbox
     :class `${class} ws-item`
@@ -34,7 +51,6 @@
 (defpoll hour :interval "1s" :initial "00" `date +%02H`)
 (defpoll minute :interval "1s" :initial "00" `date +%02M`)
 (defpoll seconds :interval "1s" `date +%S`)
-
 (defwidget time []
   (box
     :class "time-container"
@@ -52,6 +68,100 @@
         (box hour)
         (box minute)))))
 
+;; Status
+(defpoll current-bat
+  :interval "2s"
+  :initial "[0, 0]"
+  `$SCRIPT_ROOT/battery`)
+(defpoll cpu-user
+  :interval "1s"
+  :initial 0.0
+  `$SCRIPT_ROOT/cpu`)
+(defpoll avail-mem
+  :interval "1s"
+  :initial 100.0
+  `$SCRIPT_ROOT/memory`)
+
+(defwidget bat []
+  (icon-with-bar
+    :class "bat"
+    :value {current-bat[1]}
+    :tooltip-prefix "Battery"
+    { current-bat[0] == 1 ? "󰚥" : "󰉁"}))
+
+(defwidget mem []
+  (icon-with-bar
+    :class "mem"
+    :value avail-mem
+    :tooltip-prefix "RAM"
+    "󰍛"))
+
+(defwidget cpu []
+  (icon-with-bar
+    :class "cpu"
+    :value {100.0 - cpu-user}
+    :tooltip-prefix "CPU"
+    "󰘚"))
+
+(defwidget status []
+  (box
+    :class "status"
+    :orientation "v"
+    :space-evenly false
+    :spacing 5
+    (bat)
+    (mem)
+    (cpu)))
+
+;; Control
+(defvar current-volume 0)
+(defvar current-mic 0)
+(defvar is-muted-volume true)
+(defvar is-muted-mic true)
+(defpoll current-brightness
+  :interval "1s"
+  :initial 100
+  `$SCRIPT_ROOT/brightness`)
+
+(defwidget volume []
+  (icon-with-bar
+    :class {is-muted-volume ? "volume volume-muted" : "volume"}
+    :value current-volume
+    :tooltip-prefix "Volume"
+    (eventbox
+      :onclick `$SCRIPT_ROOT/set-volume mute`
+      :onscroll `$SCRIPT_ROOT/set-volume {}`
+      {is-muted-volume ? "󰸈" : "󰕾"})))
+
+(defwidget mic []
+  (icon-with-bar
+    :class {is-muted-mic ? "mic mic-muted" : "mic"}
+    :value current-mic
+    :tooltip-prefix "Mic"
+    (eventbox
+      :onclick `$SCRIPT_ROOT/set-mic mute`
+      :onscroll `$SCRIPT_ROOT/set-mic {}`
+      {is-muted-mic ? "󰍭" : "󰍬"})))
+
+(defwidget brightness []
+  (icon-with-bar
+    :class "brightness"
+    :value current-brightness
+    :tooltip-prefix "Brightness"
+    (eventbox
+      :onscroll `$SCRIPT_ROOT/set-brightness {}`
+      "󰃠")))
+
+(defwidget control []
+  (box
+    :class "control"
+    :orientation "v"
+    :space-evenly false
+    :spacing 5
+    (brightness)
+    (volume)
+    (mic)))
+
 (defwidget top []
   (box
     :class "top-bar"
@@ -66,14 +176,17 @@
     :orientation "v"
     :space-evenly false
     :valign "center"
-    "C"))
+    ""))
 
 (defwidget bottom []
   (box
     :class "bottom-bar"
     :orientation "v"
     :space-evenly false
+    :spacing 10
     :valign "end"
+    (control)
+    (status)
     (time)))
 
 (defwidget bar []

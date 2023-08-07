@@ -34,6 +34,23 @@ $crust: #11111b;
     Noto Sans CJK TC;
 }
 
+.small-bar trough {
+  all: unset;
+  background-color: $surface1;
+  border-radius: 1px;
+  min-height: 20px;
+  min-width: 3px;
+}
+
+.small-bar trough progress {
+  border-radius: 5px;
+  min-width: 3px;
+}
+
+.icon {
+  margin: 0 2px 0 2px;
+}
+
 .main-bar {
   background: transparent;
 }
@@ -76,6 +93,7 @@ $crust: #11111b;
   all: unset;
   border-radius: 5px;
   background: rgba($color: $lavender, $alpha: 0.6);
+  background-clip: padding-box;
   min-width: 40px;
   min-height: 60px;
 }
@@ -83,5 +101,101 @@ $crust: #11111b;
 .time-progress trough progress {
   border-radius: 5px;
   background: $lavender;
+  background-clip: padding-box;
   min-width: 40px;
+}
+
+.status,
+.control {
+  font-size: 14px;
+  background-color: $base;
+  border-radius: 5px;
+  padding: 8px 0 8px 0;
+  color: $text;
+}
+
+.cpu {
+  color: $red;
+}
+
+.cpu trough progress {
+  background-color: $red;
+}
+
+.mem {
+  color: $mauve;
+}
+
+.mem trough progress {
+  background-color: $mauve;
+}
+
+.bat {
+  color: $blue;
+}
+
+.bat trough progress {
+  background-color: $blue;
+}
+
+.volume {
+  color: $teal;
+}
+
+.volume trough progress {
+  background-color: $teal;
+}
+
+.volume-muted trough progress {
+  background-color: $surface0;
+}
+
+.brightness {
+  color: $yellow;
+}
+
+.brightness trough progress {
+  background-color: $yellow;
+}
+
+.mic {
+  color: $sapphire;
+}
+
+.mic trough progress {
+  background-color: $sapphire;
+}
+
+.mic-muted trough progress {
+  background-color: $surface0;
+}
+
+.mpd {
+  background-color: $base;
+  border-radius: 5px;
+}
+
+.mpd-progress {
+  margin-left: 3px;
+}
+
+.mpd-progress trough progress {
+  background-color: $lavender;
+}
+
+.mpd-pane {
+  margin: 5px 0 5px 0;
+}
+
+.mpd-pane-item {
+  color: $text;
+}
+
+.mpd-cover {
+  min-height: 35px;
+  min-width: 35px;
+  border-radius: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }

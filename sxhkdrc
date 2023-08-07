@@ -49,8 +49,8 @@ super + ctrl + Print
 ## Brightness
 # Increase brightness by 10
 XF86MonBrightnessUp
-    light -A 10
+    light -A 10; eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
 # Decrease brightness by 10
 XF86MonBrightnessDown
-    light -U 10
+    light -U 10; eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
 
