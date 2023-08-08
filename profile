@@ -20,8 +20,9 @@ run "$SCRIPT_ROOT/watch-volume"
 run "$SCRIPT_ROOT/watch-mpd"
 
 run polybar -c "$BSPWM_ROOT/polybar.ini"
-polybar-msg cmd restart
 polybar-msg cmd hide
+
+run dunst
 
 ## Update Initial EWW variables
 eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
