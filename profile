@@ -10,7 +10,7 @@ run() {
 
 run sxhkd -c "$BSPWM_ROOT/sxhkdrc"
 
-feh --bg-fill "/home/poyehchen/Pictures/Wallpapers/104200866_p0.png"
+feh --bg-max "/home/poyehchen/Pictures/Wallpapers/104200866_p0.png" -B "#11111b"
 
 eww -c "$EWW_ROOT" reload
 eww -c "$EWW_ROOT" open bar
