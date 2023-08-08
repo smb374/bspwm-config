@@ -21,6 +21,7 @@ bspc config normal_border_color "#6C7086"
 export BSPWM_ROOT="$HOME/.config/bspwm"
 export EWW_ROOT="$BSPWM_ROOT/eww"
 export SCRIPT_ROOT="$BSPWM_ROOT/scripts"
+export ROFI_ROOT="$BSPWM_ROOT/rofi"
 
 . "$BSPWM_ROOT/rules"
 . "$BSPWM_ROOT/profile"

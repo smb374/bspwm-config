@@ -3,13 +3,13 @@ super + Return
     alacritty
 # launcher
 super + d
-    $HOME/.config/rofi/scripts/launcher_t1
+    rofi -config $ROFI_ROOT/launcher.rasi -show drun
 # reload config
 super + shift + r
-    bspc wm -r; kill -USR1 -x sxhkd
+    bspc wm -r; pkill -USR1 -x sxhkd
 # quit/restart bspwm
 super + shift + x
-    bspc quit
+    $SCRIPT_ROOT/rofi-powermenu
 # close
 super + shift + q
     bspc node -c

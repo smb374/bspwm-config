@@ -23,6 +23,7 @@ run polybar -c "$BSPWM_ROOT/polybar.ini"
 polybar-msg cmd hide
 
 run dunst
+run light-locker
 
 ## Update Initial EWW variables
 eww -c "$EWW_ROOT" update current-brightness="$(light -G)"
