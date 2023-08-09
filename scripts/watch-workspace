@@ -1,41 +1,100 @@
 #!/usr/bin/env python3
 from subprocess import Popen, PIPE, STDOUT
-import re
+from multiprocessing import Process, Pipe
+from multiprocessing.connection import Connection
 import subprocess
 
-REGEX = re.compile(r"(:(?:[fFoO][^:]*:)*)")
 NORMAL = "ws-normal"
 FOCUSED = "ws-focused"
 OCCUPIED = "ws-occupied"
-
-res = Popen(["bspc", "subscribe", "report"], stdout=PIPE, stderr=STDOUT)
 state: list[str] = [NORMAL] * 9
-if res.stdout is None:
-    exit(1)
-try:
-    with res.stdout as lines:
-        for line in lines:
+
+
+def handle_desktops(desktops: list[bytes]) -> tuple[str, int]:
+    cmd_args = "eww -c $EWW_ROOT update"
+    cnt = 0
+    for d in desktops:
+        mode = d[0]
+        name = d[1] - 48
+        s = NORMAL
+        if mode == 79 or mode == 70:  # 'O' or 'F'
+            s = FOCUSED
+        elif mode == 111:  # 'o'
+            s = OCCUPIED
+        if state[name - 1] != s:
+            state[name - 1] = s
+            cmd_args += f" ws{name}={s}"
+            cnt += 1
+    return cmd_args, cnt
+
+
+def workspace_handler_process(recv: Connection):
+    state: list[str] = [NORMAL] * 9
+    while True:
+        try:
+            desktops = recv.recv()
             cmd_args = "eww -c $EWW_ROOT update"
-            status = line.decode(encoding="ascii").strip()
-            result = REGEX.search(status)
-            if result is None:
-                continue
-            desktops = result.group(0)[1:-1].split(sep=":")
             cnt = 0
             for d in desktops:
                 mode = d[0]
                 name = int(d[1])
                 s = NORMAL
-                if mode == "O" or mode == "F":
+                if mode == "O" or mode == "F":  # 'O' or 'F'
                     s = FOCUSED
-                elif mode == "o":
+                elif mode == "o":  # 'o'
                     s = OCCUPIED
                 if state[name - 1] != s:
                     state[name - 1] = s
                     cmd_args += f" ws{name}={s}"
                     cnt += 1
             if cnt != 0:
-                subprocess.run(cmd_args, shell=True)
+                Popen(cmd_args, shell=True)
+        except KeyboardInterrupt:
+            recv.close()
+            break
+    pass
 
-except KeyboardInterrupt:
-    exit(0)
+
+def fullscreen_handler_process(recv: Connection):
+    bar_closed = False
+    while True:
+        try:
+            layout = recv.recv()
+            if layout == "=":
+                subprocess.run("eww -c $EWW_ROOT close bar >/dev/null",
+                               shell=True)
+                bar_closed = True
+            elif bar_closed:
+                subprocess.run("eww -c $EWW_ROOT open bar >/dev/null",
+                               shell=True)
+                bar_closed = False
+        except KeyboardInterrupt:
+            recv.close()
+            break
+
+
+(wrecv, wsend) = Pipe(duplex=False)
+(frecv, fsend) = Pipe(duplex=False)
+fh = Process(target=fullscreen_handler_process, args=(frecv, ), daemon=True)
+wh = Process(target=workspace_handler_process, args=(wrecv, ), daemon=True)
+fh.start()
+wh.start()
+res = Popen(["bspc", "subscribe", "report"], stdout=PIPE, stderr=STDOUT)
+if res.stdout is None:
+    exit(1)
+with res.stdout as lines:
+    try:
+        for line in lines:
+            status = line.decode(encoding="ascii").strip()
+            columns = status.split(sep=":")
+            desktops = columns[1:10]
+            wsend.send(desktops)
+            if len(columns) >= 12:
+                layout = columns[11][1]
+                fsend.send(layout)
+
+    except KeyboardInterrupt:
+        wsend.close()
+        fsend.close()
+        wh.join()
+        fh.join()

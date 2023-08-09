@@ -252,5 +252,6 @@
               :width 40
               :height "98%"
               :anchor "left center")
-  :stacking "fg"
+  :wm-ignore true
+  :stacking "bg"
   (bar))
